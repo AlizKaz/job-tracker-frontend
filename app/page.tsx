@@ -69,6 +69,26 @@ function StatusColumn({ name, count, bgcolor, color, onStatusFilterChange}: {nam
   );
 }
 
+function StatusButton({ name, count, active, onStatusFilterChange}: {name: string, count: number, active: boolean, onStatusFilterChange: Function}) {
+  const bgColor = active ? "bg-amber-100" : "bg-white";
+  const color = active ? "text-orange-700" : "text-black";
+  const cursor = count >= 1 ? "cursor-pointer" : "cursor-default";
+  return (  
+    <div className="flex grow text-sm font-sans content-between">
+        <div className={`${bgColor} ${color} flex justify-center items-center -ml-1 cursor-pointer grow status-polygon`}>
+          {/* className="justify-center text-center items-center	-ml-1 text-sm font-sans" */}
+          <div className="text-center status-polygon status-height-width box-border bg-white">
+            <button onClick={(e) => onStatusFilterChange(name)} className={`${cursor} mx-2 leading-normal overflow-visible touch-manipulation box-border`}>        
+              <div className="mt-3 mb-0.5 text-lg font-semibold leading-5 box-border">{count}</div>              
+              <div className="mt-0.5 mb-4 text-xs uppercase	font-semibold tracking-wider box-border">{name}</div>        
+            </button>
+          </div>
+        </div>
+    </div>
+  );
+}
+
+
 function JobStatusRow({status}: {status: string}) {
   return (
     <tr>
@@ -136,34 +156,33 @@ function JobTable({jobs, filteredStatus, filterJobsText}: {jobs: Array<Job>, fil
 }
 
 function StatusFilterBar({statusList, filteredStatus, onStatusFilterChange}: {statusList: Array<StatusCategory>, filteredStatus: string | null, onStatusFilterChange: Function}) {
-  const cols: Array<any> = [];
+  const buttons: Array<any> = [];
   
     
   statusList.forEach((st) => {     
-    let bgcolor = '#ffffff' 
-    let color = 'black'
+    let active : boolean = false
     if (st.name == filteredStatus) {
-      bgcolor = '#f9d8b5'
-      color = '#74430b'
+      active = true
     }
-    cols.push(
-      <StatusColumn
+    buttons.push(
+      <StatusButton
         name={st.name}
         count={st.count}
-        bgcolor={bgcolor}
-        color={color}
+        active={active}        
         onStatusFilterChange={onStatusFilterChange} />
     );
   })
     
   return (
-    <table>
-      <tbody>
-        <tr>
-          {cols}
-        </tr>
-      </tbody>
-    </table>
+    <div>
+    <div className="flex flex-col	flex-nowrap overflow-hidden">
+      <div className="bg-white px-3 border-b border-solid	text-sm font-sans">
+        <div className="flex content-between items-stretch">
+          {buttons}
+        </div>
+      </div>
+    </div>
+    </div>
   );
 }
 

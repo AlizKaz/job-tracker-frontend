@@ -30,4 +30,17 @@ body {
   .text-balance {
     text-wrap: balance;
   }
+
+  
+
+  .status-polygon {
+    clip-path: polygon(0% 0%,calc(100% - 15px) 0%,100% 50%,calc(100% - 15px) 100%,0% 100%,0% 0%);
+  }
+
+  .status-height-width {
+    height: calc(100% - 2px);
+    width: calc(100% - 2px);
+  }
+ 
+
 }
