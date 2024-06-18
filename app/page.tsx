@@ -4,8 +4,16 @@ import { ReactElement, useState } from 'react';
 
 function AddJobButton({}) {
   return (
-    <div>
-      <input type="button" value="Add a New Job"/>
+    <div className="flex px-4 py-2 bg-emerald-500 text-white font-normal rounded hover:bg-emerald-700 h-8">
+      <button className="flex justify-strech-item align-middle leading-4">
+        <span role="img" aria-label="plus-circle" className="align-middle inline-flex">
+          <svg viewBox="64 64 896 896" className="h-4 w-4 fill-current" data-icon="plus-circle" aria-hidden="true">
+            <path d="M696 480H544V328c0-4.4-3.6-8-8-8h-48c-4.4 0-8 3.6-8 8v152H328c-4.4 0-8 3.6-8 8v48c0 4.4 3.6 8 8 8h152v152c0 4.4 3.6 8 8 8h48c4.4 0 8-3.6 8-8V544h152c4.4 0 8-3.6 8-8v-48c0-4.4-3.6-8-8-8z"></path>
+            <path d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 820c-205.4 0-372-166.6-372-372s166.6-372 372-372 372 166.6 372 372-166.6 372-372 372z"></path>
+          </svg>          
+        </span>
+        <span className="align-middle ml-2">Add a New Job</span>
+      </button>
     </div>
   )
 }
@@ -31,13 +39,13 @@ function GroupByBox({}) {
 
 function JobSelectCheckbox({}) {
   return (
-    <div>
-    <div>
-      <input type="checkbox"/>    
-    </div>
-    <div>
-      <p>0 selected</p>  
-    </div>
+    <div className="flex">
+      <div>
+        <input type="checkbox"/>    
+      </div>
+      <div>
+        <p>0 selected</p>  
+      </div>
     </div>
   );
 }
@@ -159,9 +167,9 @@ function StatusFilterBar({statusList, filteredStatus, onStatusFilterChange}: {st
   );
 }
 
-function MiddleBar({filterJobsText, onFilterJobsTextChange}: {filterJobsText: string; onFilterJobsTextChange: Function}) {
+function ActionBar({filterJobsText, onFilterJobsTextChange}: {filterJobsText: string; onFilterJobsTextChange: Function}) {
   return (
-    <div>
+    <div className="justify-items-stretch flex align-middle p-3 justify-stretch gap-x-4">
       <JobSelectCheckbox/>
       <JobFilterBox filterJobsText={filterJobsText} onFilterJobsTextChange={onFilterJobsTextChange}/>  
       <GroupByBox/>
@@ -176,9 +184,9 @@ function FilterableJobs({ jobs, statusList }: {jobs: Array<Job>, statusList: Arr
   const [filterJobsText, setFilterJobsText] = useState<string>('');
 
   return (
-    <div>
+    <div className="p-8">
       <StatusFilterBar statusList={statusList} filteredStatus={filteredStatus} onStatusFilterChange={setFilteredStatus}/>
-      <MiddleBar filterJobsText={filterJobsText} onFilterJobsTextChange={setFilterJobsText}/>
+      <ActionBar filterJobsText={filterJobsText} onFilterJobsTextChange={setFilterJobsText}/>
       <JobTable jobs={jobs} filteredStatus={filteredStatus} filterJobsText={filterJobsText}/>
     </div>
   );
