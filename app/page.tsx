@@ -127,13 +127,13 @@ function JobTable({jobs, filteredStatus, filterJobsText}: {jobs: Array<Job>, fil
     .forEach((job) => {
       if (job.status !== lastStatus) {
         rows.push(
-          <JobStatusRow
+          <JobStatusRow 
             status={job.status}
             key={job.status} />
         );
       }
       rows.push(
-        <JobRow job={job}/>
+        <JobRow job={job} key={job.id}/>
       )
       lastStatus = job.status;
   });
@@ -168,7 +168,8 @@ function StatusFilterBar({statusList, filteredStatus, onStatusFilterChange}: {st
         name={st.name}
         count={st.count}      
         filteredStatus={filteredStatus}
-        onStatusFilterChange={onStatusFilterChange} />
+        onStatusFilterChange={onStatusFilterChange}
+        key={st.name} />
     );
   })
     
@@ -187,12 +188,15 @@ function StatusFilterBar({statusList, filteredStatus, onStatusFilterChange}: {st
 
 function ActionBar({filterJobsText, onFilterJobsTextChange}: {filterJobsText: string; onFilterJobsTextChange: Function}) {
   return (
-    <div className="justify-items-stretch flex align-middle p-3 justify-stretch gap-x-4">
-      <JobSelectCheckbox/>
-      <JobFilterBox filterJobsText={filterJobsText} onFilterJobsTextChange={onFilterJobsTextChange}/>  
-      <GroupByBox/>
-      <MenuButton/>
-      <AddJobButton/>
+    <div className="content-between bg-white border-b border-solid py-4 box-border">
+      <div className="flex flex-wrap items-stretch space-x-0 space-y-0 justify-between gap-0 box-border">
+      {/* justify-items-stretch flex align-middle p-3 justify-stretch gap-x-4 */}
+        <JobSelectCheckbox/>
+        <JobFilterBox filterJobsText={filterJobsText} onFilterJobsTextChange={onFilterJobsTextChange}/>  
+        <GroupByBox/>
+        <MenuButton/>
+        <AddJobButton/>
+      </div>
     </div>
   )
 }
