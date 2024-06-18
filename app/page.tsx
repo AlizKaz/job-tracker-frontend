@@ -37,24 +37,48 @@ function GroupByBox({}) {
   );
 }
 
-function JobSelectCheckbox({}) {
+function JobSelectCheckbox({countOfSelectedJobs, onSelectedJobsChange} : {countOfSelectedJobs : number, onSelectedJobsChange: Function}) {
   return (
-    <div className="flex">
-      <div>
-        <input type="checkbox"/>    
+    <div className="box-border relative max-w-full min-h-px">
+      <div className="flex flex-nowrap items-center	gap-2	min-h-8	box-border">
+        <label className="rounded	border border-solid leading-5	py-1.5 px-2 border-stone-400 box-border m-0 text-black text-sm tabular-nums	list-none	inline-flex	items-baseline cursor-pointer">
+          <span className="text-left box-border m-0 p-0 text-black text-sm tabular-nums top-1	leading-none relative top-1	leading-none	whitespace-nowrap	outline-none	cursor-pointer">
+            <input type="checkbox" className="box-border p-0 absolute top-0 right-0 left-0 bottom-0 z-10 w-full h-full cursor-pointer opacity-0	overflow-visible	"/>
+            <span dir="ltr" className="bg-white border-gray-300	rounded shadow-sm	box-border relative top-0 left-0 block	w-4 h-4 border border-solid border-stone-400 border-separate	transition-all"/>    
+            <span className="font-sans">
+              {countOfSelectedJobs}
+              {" selected"}
+            </span>
+          </span>
+        </label>         
       </div>
-      <div>
-        <p>0 selected</p>  
-      </div>
+
     </div>
   );
 }
 
 function JobFilterBox({filterJobsText, onFilterJobsTextChange}: {filterJobsText: string, onFilterJobsTextChange: Function}) {
+  const clearButtonVisibility = "invisible"
   return (
-    <span>
-      <input placeholder="Filter Jobs" type="text" value={filterJobsText} onInput={(e) => onFilterJobsTextChange(e.target.value)}/>
-    </span>
+    <span className="min-w-40	w-auto	box-border relative py-1 px-3 text-black text-sm leading-normal	bg-white bg-none border-b border-solid	border-gray-300 rounded-sm	transition-all	inline-flex">
+      <input placeholder="Filter Jobs" type="text" className="w-52	p-0 top-px relative text-ellipsis rounded-none	outline-none	tracking-normal	box-border m-0 tabular-nums inline-block	text-black bg-white transition-all rounded-sm " 
+      value={filterJobsText} onInput={(e) => onFilterJobsTextChange(e.target.value)}/>
+      <span className={`flex items-center box-border m-1	flex-none	mr-2 cursor-pointer box-border ml-1 ${clearButtonVisibility} text-slate-950`}>
+        <span className="mr-2	cursor-pointer ml-1 text-xs	transition-colors	border-0	border-solid	" role="button" tabindex="-1">
+          <span role="img" aria-label="close-circle" className="box-border inline-block text-center	normal-case">
+            <svg fill-rule="evenodd" viewBox="64 64 896 896" focusable="false" data-icon="close-circle" width="1em" height="1em" fill="currentColor" aria-hidden="true">
+              <path d="M512 64c247.4 0 448 200.6 448 448S759.4 960 512 960 64 759.4 64 512 264.6 64 512 64zm127.98 274.82h-.04l-.08.06L512 466.75 384.14 338.88c-.04-.05-.06-.06-.08-.06a.12.12 0 00-.07 0c-.03 0-.05.01-.09.05l-45.02 45.02a.2.2 0 00-.05.09.12.12 0 000 .07v.02a.27.27 0 00.06.06L466.75 512 338.88 639.86c-.05.04-.06.06-.06.08a.12.12 0 000 .07c0 .03.01.05.05.09l45.02 45.02a.2.2 0 00.09.05.12.12 0 00.07 0c.02 0 .04-.01.08-.05L512 557.25l127.86 127.87c.04.04.06.05.08.05a.12.12 0 00.07 0c.03 0 .05-.01.09-.05l45.02-45.02a.2.2 0 00.05-.09.12.12 0 000-.07v-.02a.27.27 0 00-.05-.06L557.25 512l127.87-127.86c.04-.04.05-.06.05-.08a.12.12 0 000-.07c0-.03-.01-.05-.05-.09l-45.02-45.02a.2.2 0 00-.09-.05.12.12 0 00-.07 0z"></path>
+            </svg>
+          </span>
+        </span>
+        <span role="img" aria-label="search" className="box-border inline-block anticon anticon-search">
+            <svg viewBox="64 64 896 896" focusable="false" data-icon="search" width="1em" height="1em" fill="currentColor" aria-hidden="true">
+              <path d="M909.6 854.5L649.9 594.8C690.2 542.7 712 479 712 412c0-80.2-31.3-155.4-87.9-212.1-56.6-56.7-132-87.9-212.1-87.9s-155.5 31.3-212.1 87.9C143.2 256.5 112 331.8 112 412c0 80.1 31.3 155.5 87.9 212.1C256.5 680.8 331.8 712 412 712c67 0 130.6-21.8 182.7-62l259.7 259.6a8.2 8.2 0 0011.6 0l43.6-43.5a8.2 8.2 0 000-11.6zM570.4 570.4C528 612.7 471.8 636 412 636s-116-23.3-158.4-65.6C211.3 528 188 471.8 188 412s23.3-116.1 65.6-158.4C296 211.3 352.2 188 412 188s116.1 23.2 158.4 65.6S636 352.2 636 412s-23.3 116.1-65.6 158.4z">
+              </path>
+            </svg>
+        </span>
+        </span>
+      </span>
   );
 }
 
@@ -186,16 +210,17 @@ function StatusFilterBar({statusList, filteredStatus, onStatusFilterChange}: {st
   );
 }
 
-function ActionBar({filterJobsText, onFilterJobsTextChange}: {filterJobsText: string; onFilterJobsTextChange: Function}) {
+function ActionBar({filterJobsText, onFilterJobsTextChange, countOfSelectedJobs, onSelectedJobsChange}: {filterJobsText: string; onFilterJobsTextChange: Function, countOfSelectedJobs: number, onSelectedJobsChange: Function}) {
   return (
     <div className="content-between bg-white border-b border-solid py-4 box-border">
-      <div className="flex flex-wrap items-stretch space-x-0 space-y-0 justify-between gap-0 box-border">
-      {/* justify-items-stretch flex align-middle p-3 justify-stretch gap-x-4 */}
-        <JobSelectCheckbox/>
-        <JobFilterBox filterJobsText={filterJobsText} onFilterJobsTextChange={onFilterJobsTextChange}/>  
-        <GroupByBox/>
-        <MenuButton/>
-        <AddJobButton/>
+      <div className="flex flex-wrap items-stretch space-x-0 space-y-0 justify-between gap-0 box-border">      
+        <JobSelectCheckbox countOfSelectedJobs={countOfSelectedJobs} onSelectedJobsChange={onSelectedJobsChange}/>
+        <div className="flex flex-wrap justify-end	items-center gap-4	box-border relative max-w-full min-h-px">
+          <JobFilterBox filterJobsText={filterJobsText} onFilterJobsTextChange={onFilterJobsTextChange}/>  
+          <GroupByBox/>
+          <MenuButton/>
+          <AddJobButton/>
+        </div>
       </div>
     </div>
   )
@@ -209,11 +234,12 @@ type FileteredStatus = {
 function FilterableJobs({ jobs, statusList }: {jobs: Array<Job>, statusList: Array<StatusCategory>}) {
   const [filteredStatus, setFilteredStatus] = useState<FileteredStatus>({name: null, active: false});
   const [filterJobsText, setFilterJobsText] = useState<string>('');
+  const [countOfSelectedJobs, setCountOfSelectedJobs] = useState<number>(0);
 
   return (
     <div className="p-8">
       <StatusFilterBar statusList={statusList} filteredStatus={filteredStatus} onStatusFilterChange={setFilteredStatus}/>
-      <ActionBar filterJobsText={filterJobsText} onFilterJobsTextChange={setFilterJobsText}/>
+      <ActionBar filterJobsText={filterJobsText} onFilterJobsTextChange={setFilterJobsText} countOfSelectedJobs={countOfSelectedJobs} onSelectedJobsChange={setCountOfSelectedJobs}/>
       <JobTable jobs={jobs} filteredStatus={filteredStatus} filterJobsText={filterJobsText}/>
     </div>
   );
