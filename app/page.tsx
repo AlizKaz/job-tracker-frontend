@@ -20,7 +20,7 @@ function AddJobButton({}) {
 
 function MenuButton({}) {
   return (
-    <div>
+    <div className="border h-8 rounded px-4 py-2 leading-none text-sm border-[#005149]">
       <input type="button" value="::: Menu"/>
     </div>
   )
@@ -44,6 +44,14 @@ function GroupByBox({}) {
       </span>
     </div>
   );
+}
+
+function ColumnsButton({}) {
+  return (
+    <button type="button" className="text-sm h-8 text-[#005149] border-[#005149] leading-none text-base tracking-[0] shadow-none rounded px-4 py-2 border">
+      <span>Columns</span>
+    </button>
+  )
 }
 
 function JobSelectCheckbox({countOfSelectedJobs, onSelectedJobsChange} : {countOfSelectedJobs : number, onSelectedJobsChange: Function}) {
@@ -228,6 +236,7 @@ function ActionBar({filterJobsText, onFilterJobsTextChange, countOfSelectedJobs,
         <div className="flex flex-wrap justify-end	items-center gap-4	box-border relative max-w-full min-h-px">
           <JobFilterBox filterJobsText={filterJobsText} onFilterJobsTextChange={onFilterJobsTextChange}/>  
           <GroupByBox/>
+          <ColumnsButton/>
           <MenuButton/>
           <AddJobButton/>
         </div>
