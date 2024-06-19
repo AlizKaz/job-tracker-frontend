@@ -28,11 +28,20 @@ function MenuButton({}) {
 
 function GroupByBox({}) {
   return (
-    <div>
-      <select>
-        <option value="none">Group By: None</option>
-        <option value="status">Group By: Status</option>
-      </select>
+    <div className="min-w-40 text-left box-border m-0 p-0 text-black cursor-pointer tabular-nums leading-7	relative inline-block cursor-pointer border-gray-300 font-sans">
+      <div className="relative bg-white border border-solid border-gray-300 rounded-sm	transition-all w-full	h-8	px-3	flex box-border text-left color-black cursor-pointer">
+        <span className="right-6 absolute top-0 bottom-0 left-3 box-border">
+          <input type="search" autocomplete="off" className="m-0 p-0 bg-none outline-none h-7 cursor-pointer w-full -outline-offset-2	overflow-visible" role="combobox" aria-haspopup="listbox" aria-owns="rc_select_4_list" aria-autocomplete="list" aria-controls="rc_select_4_list" aria-activedescendant="rc_select_4_list_0" readonly="" unselectable="on" value="" id="rc_select_4" aria-expanded="false"/>          
+        </span>
+        <span className="pr-4 relative select-none p-0 h-8 transition-all flex-1 overflow-hidden font-normal whitespace-nowrap	text-ellipsis box-border" title="Group by: Status">Group by: Status</span>
+      </div>
+      <span className="select-none absolute top-1/2	right-3	flex items-center h-3 -mt-1.5	text-center pointer-events-none	box-border" unselectable="on" aria-hidden="true" > 
+        <span role="img" aria-label="down" className="align-top	transition-transform	leading-none	box-border inline-block text-center ">
+          <svg viewBox="64 64 896 896" focusable="false" data-icon="down" aria-hidden="true" className="box-border leading-none w-4 h-4 fill-current">
+            <path d="M884 256h-75c-5.1 0-9.9 2.5-12.9 6.6L512 654.2 227.9 262.6c-3-4.1-7.8-6.6-12.9-6.6h-75c-6.5 0-10.3 7.4-6.5 12.7l352.6 486.1c12.8 17.6 39 17.6 51.7 0l352.6-486.1c3.9-5.3.1-12.7-6.4-12.7z"></path>
+          </svg>
+        </span>
+      </span>
     </div>
   );
 }
@@ -58,15 +67,16 @@ function JobSelectCheckbox({countOfSelectedJobs, onSelectedJobsChange} : {countO
 }
 
 function JobFilterBox({filterJobsText, onFilterJobsTextChange}: {filterJobsText: string, onFilterJobsTextChange: Function}) {
-  const clearButtonVisibility = "invisible"
+  // const clearButtonVisibility = "invisible"
+  const clearButtonVisibility = "visible";
   return (
-    <span className="min-w-40	w-auto	box-border relative py-1 px-3 text-black text-sm leading-normal	bg-white bg-none border-b border-solid	border-gray-300 rounded-sm	transition-all	inline-flex">
+    <span className="min-w-40	w-auto	box-border relative py-1 px-2.5 text-black text-sm leading-normal	bg-white bg-none border border-solid	border-gray-300 rounded-sm	transition-all	inline-flex">
       <input placeholder="Filter Jobs" type="text" className="w-52	p-0 top-px relative text-ellipsis rounded-none	outline-none	tracking-normal	box-border m-0 tabular-nums inline-block	text-black bg-white transition-all rounded-sm " 
       value={filterJobsText} onInput={(e) => onFilterJobsTextChange(e.target.value)}/>
       <span className={`flex items-center box-border m-1	flex-none	mr-2 cursor-pointer box-border ml-1 ${clearButtonVisibility} text-slate-950`}>
-        <span className="mr-2	cursor-pointer ml-1 text-xs	transition-colors	border-0	border-solid	" role="button" tabindex="-1">
+        <span className="mr-2	cursor-pointer ml-1 text-xs	transition-colors	border-0	border-solid" role="button" tabindex="-1">
           <span role="img" aria-label="close-circle" className="box-border inline-block text-center	normal-case">
-            <svg fill-rule="evenodd" viewBox="64 64 896 896" focusable="false" data-icon="close-circle" width="1em" height="1em" fill="currentColor" aria-hidden="true">
+            <svg className="text-[#00000040] fill-current" fill-rule="evenodd" viewBox="64 64 896 896" focusable="false" data-icon="close-circle" width="1em" height="1em" aria-hidden="true">
               <path d="M512 64c247.4 0 448 200.6 448 448S759.4 960 512 960 64 759.4 64 512 264.6 64 512 64zm127.98 274.82h-.04l-.08.06L512 466.75 384.14 338.88c-.04-.05-.06-.06-.08-.06a.12.12 0 00-.07 0c-.03 0-.05.01-.09.05l-45.02 45.02a.2.2 0 00-.05.09.12.12 0 000 .07v.02a.27.27 0 00.06.06L466.75 512 338.88 639.86c-.05.04-.06.06-.06.08a.12.12 0 000 .07c0 .03.01.05.05.09l45.02 45.02a.2.2 0 00.09.05.12.12 0 00.07 0c.02 0 .04-.01.08-.05L512 557.25l127.86 127.87c.04.04.06.05.08.05a.12.12 0 00.07 0c.03 0 .05-.01.09-.05l45.02-45.02a.2.2 0 00.05-.09.12.12 0 000-.07v-.02a.27.27 0 00-.05-.06L557.25 512l127.87-127.86c.04-.04.05-.06.05-.08a.12.12 0 000-.07c0-.03-.01-.05-.05-.09l-45.02-45.02a.2.2 0 00-.09-.05.12.12 0 00-.07 0z"></path>
             </svg>
           </span>
