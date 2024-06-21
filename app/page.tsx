@@ -69,6 +69,29 @@ function StatusColumn({ name, count, bgcolor, color, onStatusFilterChange}: {nam
   );
 }
 
+function StatusButton({ name, count, filteredStatus, onStatusFilterChange}: {name: string, count: number, filteredStatus: FileteredStatus, onStatusFilterChange: Function}) {
+  let active : boolean = false
+  if (name == filteredStatus.name && filteredStatus.active) {
+    active = true
+  }
+  const bgColor = active ? "bg-orange-200" : "bg-white";
+  const color = active ? "text-orange-900" : "text-black";
+  const cursor = count >= 1 ? "cursor-pointer" : "cursor-default";
+  return (  
+    <div className="flex grow text-sm font-sans content-between">
+        <div className={`${bgColor} ${color} flex justify-center items-center -ml-1.5 cursor-pointer grow status-polygon`}>
+          <div className="text-center status-polygon status-height-width box-border">
+            <button onClick={(e) => onStatusFilterChange({name: count >= 1 ? (active ? null : name) : filteredStatus.name, active: !active})} className={`${cursor} mx-2 leading-normal overflow-visible touch-manipulation box-border`}>        
+              <div className="mt-3 mb-0.5 text-lg font-semibold leading-5 box-border">{count !== 0 ? count : "- -"}</div>              
+              <div className="mt-0.5 mb-4 text-xs uppercase	font-semibold tracking-wider box-border">{name}</div>        
+            </button>
+          </div>
+        </div>
+    </div>
+  );
+}
+
+
 function JobStatusRow({status}: {status: string}) {
   return (
     <tr>
@@ -93,12 +116,12 @@ function JobRow({job}: {job: Job}) {
   );
 }
 
-function JobTable({jobs, filteredStatus, filterJobsText}: {jobs: Array<Job>, filteredStatus: string | null, filterJobsText: string}) {
+function JobTable({jobs, filteredStatus, filterJobsText}: {jobs: Array<Job>, filteredStatus: FileteredStatus, filterJobsText: string}) {
   const rows : Array<any> = [];
   let lastStatus : string | null = null;
   filterJobsText = filterJobsText.toLocaleLowerCase();
   jobs
-    .filter(job => filteredStatus == null || job.status == filteredStatus)
+    .filter(job => filteredStatus.name == null || (job.status == filteredStatus.name && filteredStatus.active))
     .filter(job => job.title?.toLocaleLowerCase().includes(filterJobsText) || job.company?.toLocaleLowerCase().includes(filterJobsText) 
     || job.location?.toLocaleLowerCase().includes(filterJobsText))
     .forEach((job) => {
@@ -135,35 +158,30 @@ function JobTable({jobs, filteredStatus, filterJobsText}: {jobs: Array<Job>, fil
   );
 }
 
-function StatusFilterBar({statusList, filteredStatus, onStatusFilterChange}: {statusList: Array<StatusCategory>, filteredStatus: string | null, onStatusFilterChange: Function}) {
-  const cols: Array<any> = [];
+function StatusFilterBar({statusList, filteredStatus, onStatusFilterChange}: {statusList: Array<StatusCategory>, filteredStatus: FileteredStatus, onStatusFilterChange: Function}) {
+  const buttons: Array<any> = [];
   
     
   statusList.forEach((st) => {     
-    let bgcolor = '#ffffff' 
-    let color = 'black'
-    if (st.name == filteredStatus) {
-      bgcolor = '#f9d8b5'
-      color = '#74430b'
-    }
-    cols.push(
-      <StatusColumn
+    buttons.push(
+      <StatusButton
         name={st.name}
-        count={st.count}
-        bgcolor={bgcolor}
-        color={color}
+        count={st.count}      
+        filteredStatus={filteredStatus}
         onStatusFilterChange={onStatusFilterChange} />
     );
   })
     
   return (
-    <table>
-      <tbody>
-        <tr>
-          {cols}
-        </tr>
-      </tbody>
-    </table>
+    <div>
+    <div className="flex flex-col	flex-nowrap overflow-hidden">
+      <div className="bg-white px-3 border-b border-solid	text-sm font-sans">
+        <div className="flex content-between items-stretch">
+          {buttons}
+        </div>
+      </div>
+    </div>
+    </div>
   );
 }
 
@@ -179,8 +197,13 @@ function ActionBar({filterJobsText, onFilterJobsTextChange}: {filterJobsText: st
   )
 }
 
+type FileteredStatus = {
+  name: string | null;
+  active: boolean;
+}
+
 function FilterableJobs({ jobs, statusList }: {jobs: Array<Job>, statusList: Array<StatusCategory>}) {
-  const [filteredStatus, setFilteredStatus] = useState<string | null>(null);
+  const [filteredStatus, setFilteredStatus] = useState<FileteredStatus>({name: null, active: false});
   const [filterJobsText, setFilterJobsText] = useState<string>('');
 
   return (
